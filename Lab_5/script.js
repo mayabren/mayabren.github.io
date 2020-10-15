@@ -6,33 +6,51 @@ header.innerText = "Maya's List Of Countries";
 
 body.appendChild(header);
 
-//create div and list//
+//create div//
 let div = document.createElement('div');
 div.setAttribute('class','content');
 body.appendChild(div);
-let list = document.createElement('ol');
-list.setAttribute('class', 'countries');
-body.appendChild(list);
-
 
 //button//
 let button = document.createElement('button');
 button.innerText = 'Add Country';
-body.appendChild(button);
+div.appendChild(button);
 const btn = document.querySelector('button');
 
-function bgChange() {
-  const rndCol = 'rgb(' + random(255) + ',' + random(255) + ',' + random(255) + ')';
-  document.body.style.backgroundColor = rndCol;
+
+
+
+function RandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-btn.onclick = bgChange;
+  //creates new list//
+  let list = document.createElement('ol');
+  let item = document.getElementById('ol')
+  list.setAttribute('class', 'countries');
+  body.appendChild(list);
+
+function createList() {
+  let ol = document.querySelector("ol");
+  ol.innerHTML = "";
+
+  let min = 0;
+  let max = 25;
+  let i;
+  for (i=1; i<26; i++) {
+  
+    let a = countries[RandomInt(min,max)];
+    let ele = document.createElement('li');
+    ele.innerHTML = '<b>' + a.code + '</b>, ' + a.name;
+    list.appendChild(ele);
+    const randomItem = countries.splice(a, 1);
+  }
+  console.log(countries);
+}
 
 
-function getBody(content) 
-{ 
-   var x = content.indexOf("<tbody");
-   x = content.indexOf(">", x);    
-   var y = content.lastIndexOf("</tbody>"); 
-   return content.slice(x + 1, y);
-} 
+btn.onclick = createList;
+
+
