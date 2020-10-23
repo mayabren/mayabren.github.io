@@ -8,9 +8,19 @@ h1 {
 html {
     font-size: 10px;
     background-color: #fff1ea;
+    display: flex;
+    flex-direction: column;
+    flex-flow: center;
   }
+
+form {
+    display: flex;
+    flex-flow: center;
+}
   
 ul {
+    display: flex;
+    flex-direction: column;
     list-style-type: none;
 }
 
