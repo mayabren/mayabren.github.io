@@ -1,0 +1,27 @@
+
+
+h1 {
+    font-size: 3rem;
+    text-align: center;
+}
+
+html {
+    font-size: 10px;
+    background-color: #fff1ea;
+  }
+  
+ul {
+    list-style-type: none;
+}
+
+label {
+    font-size: medium;
+    font-weight: bold;
+}
+
+button {
+    background-color: #ff9355;
+    text-align: center;
+    color: white;
+    border: 1px solid rgb(2, 14, 2);
+}
