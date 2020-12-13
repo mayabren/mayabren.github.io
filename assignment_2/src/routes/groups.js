@@ -67,7 +67,7 @@ groupRouter.post('/group', async (req, res) => {
     }
     res.json({
       "message": "success",
-      "data": groups,
+      "data": group,
       "id": this.lastID
     })
   });

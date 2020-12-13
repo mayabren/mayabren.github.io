@@ -305,8 +305,8 @@ function submitNewGroup() {
   console.log("Called submitNewGroup");
   let Name = document.getElementById("addName").value;
 
-  console.log("Name:" + Name);
-  data = { 'Name': Name };
+  console.log("name:" + Name);
+  data = { 'name': Name };
 
   //console.log(JSON.stringify(data))
   let groupURL = "http://localhost:4000/groups";
@@ -328,8 +328,8 @@ function submitNewGroup() {
 
       let message = "ERROR";
       if (typeof group.id !== "undefined") {
-        Name = group.data.Name;
-        groupId = groups.id;
+        Name = group.data.name;
+        groupId = group.id;
         message = "Message: " + group.message + " Name: " + Name + "<br>groupId: " + groupId + "<br> ";
       }
       else if(typeof person !== "undefined"){
@@ -343,6 +343,54 @@ function submitNewGroup() {
     });
 
 }
+
+/*
+   ------------   Code for search task ------------
+*/
+
+
+  let taskParam = document.getElementById("task");
+  console.log("TaskId:" + taskParam);
+  let taskURL = "http://localhost:4000/task?taskId=" + taskParam;
+  const fetchPromise = fetch(taskURL);
+
+  const matches = [];
+  fetchPromise
+    .then((response) => {
+      return response.json();
+    })
+    .then((task) => {
+      console.log("Here");
+      console.log(task => matches = task);
+
+    })
+
+  function searchTask(wordmatch, matches) {
+    console.log("Called searchtask");
+    return matches.filter(place =>  {
+      const regex = new RegExp(wordmatch, 'gi');
+      return place.match.match(regex)
+    });
+  }
+
+  function display(){
+    const matchArray = findMatches(this.value, matches);
+    console.log(matches);
+    const html = matchArray.map(place => {
+      return `
+        <li>
+          <span class='name'>${place.match}</span>
+        </li>
+      `
+    }).join('');
+    suggestions.innerHTML = html
+  }
+
+  const searchInput = document.querySelector('search');
+  const suggestions = document.querySelector('.suggestions');
+
+  searchInput.addEventListener('keyup', display);
+
 
 
 /*
