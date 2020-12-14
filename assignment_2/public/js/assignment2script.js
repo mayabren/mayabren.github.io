@@ -349,8 +349,7 @@ function submitNewGroup() {
 */
 
 
-  let taskParam = document.getElementById("task");
-  console.log("TaskId:" + taskParam);
+
   let taskURL = "http://localhost:4000/allTasks";
   const fetchPromise = fetch(taskURL);
 
@@ -359,17 +358,18 @@ function submitNewGroup() {
     .then((response) => {
       return response.json();
     })
-    .then((task) => {
-      console.log("Here");
-      console.log(task => matches = task);
-
+    .then((data) => {
+      
+      matches.push(...data.data);
+      console.log(data.data);
+      console.log(matches)
     })
 
   function searchTask(wordmatch, matches) {
     console.log("Called searchtask");
     return matches.filter(place =>  {
       const regex = new RegExp(wordmatch, 'gi');
-      return place.term.match(regex)
+      return place.taskName.match(regex)
     });
   }
 
@@ -378,7 +378,7 @@ function submitNewGroup() {
     console.log(matches);
     const html = matchArray.map(place => {
       const regex = new RegExp(this.value, 'gi');
-      const word = place.term.replace(regex, `<span class='h1'>${this.value}</span>`)
+      const word = place.taskName.replace(regex, `<span class='h1'>${this.value}</span>`)
       return `
         <li>
           <span class='name'>${word}</span>
@@ -388,8 +388,8 @@ function submitNewGroup() {
     result.innerHTML = html
   }
 
-  const searchInput = document.querySelector('input');
-  const suggestions = document.querySelector('result');
+  const searchInput = document.querySelector('#search');
+  const result = document.querySelector('#result');
 
   searchInput.addEventListener('change', display);
   searchInput.addEventListener('keyup', display);
