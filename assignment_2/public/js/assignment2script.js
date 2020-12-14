@@ -309,7 +309,7 @@ function submitNewGroup() {
   data = { 'name': Name };
 
   //console.log(JSON.stringify(data))
-  let groupURL = "http://localhost:4000/groups";
+  let groupURL = "http://localhost:4000/group";
   const fetchPromise = fetch(groupURL, {
     method: 'POST', headers: {
       'Content-Type': 'application/json'
@@ -327,19 +327,19 @@ function submitNewGroup() {
       console.log(groups);
 
       let message = "ERROR";
-      if (typeof group.id !== "undefined") {
-        Name = group.data.name;
-        groupId = group.id;
-        message = "Message: " + group.message + " Name: " + Name + "<br>groupId: " + groupId + "<br> ";
+      if (typeof groups.id !== "undefined") {
+        Name = data.name;
+        groupId = groups.id;
+        message = "Message: " + groups.message + " Name: " + Name + "<br>groupId: " + groupId + "<br> ";
       }
-      else if(typeof person !== "undefined"){
-        message = "Message: " + group.message ;
+      else if(typeof group !== "undefined"){
+        message = "Message: " + groups.message ;
       }
       document.getElementById("postNewGroupContent").innerHTML = message;
     })
     .catch((err) => {
       console.log(err);
-      document.getElementById("postNewGroupContent").innerHTML = "Invalid group : " + data.Name;
+      document.getElementById("postNewGroupContent").innerHTML = "Invalid group : " + data.name;
     });
 
 }
@@ -351,7 +351,7 @@ function submitNewGroup() {
 
   let taskParam = document.getElementById("task");
   console.log("TaskId:" + taskParam);
-  let taskURL = "http://localhost:4000/task?taskId=" + taskParam;
+  let taskURL = "http://localhost:4000/allTasks";
   const fetchPromise = fetch(taskURL);
 
   const matches = [];
@@ -369,26 +369,29 @@ function submitNewGroup() {
     console.log("Called searchtask");
     return matches.filter(place =>  {
       const regex = new RegExp(wordmatch, 'gi');
-      return place.match.match(regex)
+      return place.term.match(regex)
     });
   }
 
   function display(){
-    const matchArray = findMatches(this.value, matches);
+    const matchArray = searchTask(this.value, matches);
     console.log(matches);
     const html = matchArray.map(place => {
+      const regex = new RegExp(this.value, 'gi');
+      const word = place.term.replace(regex, `<span class='h1'>${this.value}</span>`)
       return `
         <li>
-          <span class='name'>${place.match}</span>
+          <span class='name'>${word}</span>
         </li>
       `
     }).join('');
-    suggestions.innerHTML = html
+    result.innerHTML = html
   }
 
-  const searchInput = document.querySelector('search');
-  const suggestions = document.querySelector('.suggestions');
+  const searchInput = document.querySelector('input');
+  const suggestions = document.querySelector('result');
 
+  searchInput.addEventListener('change', display);
   searchInput.addEventListener('keyup', display);
 
 
